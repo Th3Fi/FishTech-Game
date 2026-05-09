@@ -5,17 +5,17 @@ import core.thread;
 void workerInit(int workerId){
     int stopPoint = workerId - 2;
     int[3] chunkGen = [workerId, 250, 16];
-    while(chunkGen[1] > 0){
+    while(chunkGen[] != [stopPoint, 0, 0]){
         writeln("worker init  : ", chunkGen, " worker id: ", workerId);
         --chunkGen[1];
-    }
-    if(chunkGen[1] == 0){
-        chunkGen[1] = 250;
-        --chunkGen[2];
-    } else if ((chunkGen[2] == 0)&&(chunkGen[0] > stopPoint)){
-        chunkGen[1] = 250;
-        chunkGen[2] = 16;
-        --chunkGen[0];
+        if((chunkGen[1] == 0) && (chunkGen[2] > 0)){
+            --chunkGen[2];
+            chunkGen[1] = 250;
+        } else if ((chunkGen[2] == 0) && (chunkGen[0] > stopPoint)){
+            --chunkGen[0];
+            chunkGen[1] = 250;
+            chunkGen[2] = 16;
+        }
     }
     writeln("worker init  : core id: ", workerId, " | stop point: ", stopPoint);
 }
